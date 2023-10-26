@@ -32,6 +32,7 @@ jobs:
             name: "Search for misspellings"
             env:
                 GH_TOKEN: "${{ github.token }}"
+            working-directory: "mdcat"
             run: |
                 set -o pipefail
                 mkdir -p "${{ runner.temp }}/typos"
@@ -43,5 +44,6 @@ jobs:
                     --quiet --output-document=- "${RELEASE_ASSET_URL}" \
                     | tar -xz -C "${{ runner.temp }}/typos" ./typos
                 "${{ runner.temp }}/typos/typos" --version
-                "${{ runner.temp }}/typos/typos" --format json mdcat/ \
+                git grep --files-with-matches --null -I -e '.' \
+                    | xargs --null --verbose -- "${{ runner.temp }}/typos/typos" --format json \
                     | jq --raw-output '"::error file=\(.path),line=\(.line_num),col=\(.byte_offset)::\"\(.typo)\" should be \"" + (.corrections // [] | join("\" or \"") + "\".")'
