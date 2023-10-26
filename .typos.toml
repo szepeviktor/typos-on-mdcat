@@ -1,0 +1,15 @@
+[files]
+extend-exclude = [
+    ".git/",
+]
+ignore-hidden = false
+
+[default]
+extend-ignore-re = [
+    "\\[BaR\\]",
+    # ANSI escape sequences
+    "\u001B\\[3m"
+]
+
+[default.extend-words]
+"iterm" = "iterm"
