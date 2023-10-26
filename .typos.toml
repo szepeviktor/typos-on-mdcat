@@ -13,3 +13,6 @@ extend-ignore-re = [
 
 [default.extend-words]
 "iterm" = "iterm"
+
+[default.extend-identifiers]
+"Darcula" = "Darcula"
